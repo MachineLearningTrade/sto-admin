@@ -1,5 +1,5 @@
 {
-  "name": "node101",
+  "name": "erc20-indexer",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,14 +8,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-  "type": "git",
-  "url": ""
+    "type": "git",
+    "url": ""
   },
   "keywords": [],
   "author": "Korede Bashir",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^2.6.1",
-    "express": "^4.16.4"
+    "ejs": "^2.7.4",
+    "lodash": "^4.17.15",
+    "openzeppelin-solidity": "2.2.0",
+    "express": "^4.16.4",
+    "web3": "^1.2.6",
+    "bignumber.js": "8.1.1",
+    "level": "6.0.0",
+    "cors": "^2.8.5",
+    "mongodb": "^3.5.4"
   }
 }
