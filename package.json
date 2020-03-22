@@ -15,14 +15,18 @@
   "author": "Korede Bashir",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^2.7.4",
-    "lodash": "^4.17.15",
-    "openzeppelin-solidity": "2.2.0",
-    "express": "^4.16.4",
-    "web3": "^1.2.6",
     "bignumber.js": "8.1.1",
-    "level": "6.0.0",
+    "body-parser": "^1.18.2",
     "cors": "^2.8.5",
-    "mongodb": "^3.5.4"
+    "ejs": "^2.7.4",
+    "express": "^4.16.4",
+    "level": "6.0.0",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.5.4",
+    "mongoose": "^5.0.11",
+    "openzeppelin-solidity": "2.2.0",
+    "web3": "^1.2.6",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
   }
 }

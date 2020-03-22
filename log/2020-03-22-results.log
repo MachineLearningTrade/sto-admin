@@ -1,0 +1,24 @@
+2020-03-22 00:20:21 info [app.js]: TradeData getTrade(default) - /tradedata/getTrade - POST - ::ffff:127.0.0.1
+2020-03-22 00:29:23 info [logger.js]: TradeData getTrade(default) - /tradedata/getTrade - POST - ::ffff:127.0.0.1
+2020-03-22 00:37:56 info [app.js]: TradeData getTrade(days = 5) - Tue Mar 17 2020 00:37:56 GMT+0800 (Hong Kong Standard Time) -  /tradedata/getTrade?days=5 - POST - ::ffff:127.0.0.1
+2020-03-22 00:38:45 info [app.js]: TradeData getTrade(default) - /tradedata/getTrade?days=errrr - POST - ::ffff:127.0.0.1
+2020-03-22 00:40:01 info [app.js]: TradeData insert - /tradedata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 00:40:38 info [app.js]: TradeData insert - /tradedata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 00:41:01 error [app.js]: TradeData insert - TradeData validation failed: insertdatetime: Cast to Date failed for value "2020-03-40 02:00:00" at path "insertdatetime" - /tradedata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 01:01:24 info [app.js]: PressData insert - /pressdata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 01:02:02 info [app.js]: PressData getPress(default) - /pressdata/getPress - POST - ::ffff:127.0.0.1
+2020-03-22 01:02:16 info [app.js]: PressData getPress(days = 5) - Tue Mar 17 2020 01:02:16 GMT+0800 (Hong Kong Standard Time) -  /pressdata/getPress?days=5 - POST - ::ffff:127.0.0.1
+2020-03-22 01:02:27 info [app.js]: PressData getPress(default) - /pressdata/getPress?days=kadwqe23123 - POST - ::ffff:127.0.0.1
+2020-03-22 01:02:34 info [app.js]: PressData getPress(default) - /pressdata/getPress?days=2.2.22 - POST - ::ffff:127.0.0.1
+2020-03-22 01:23:32 info [app.js]: PressData getPress(default) - /pressdata/getPress - POST - ::ffff:127.0.0.1
+2020-03-22 01:28:33 info [app.js]: MileStoneData insert - /milestonedata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 01:29:03 info [app.js]: MileStoneData getMilestone(default) - /milestonedata/getmilestone - POST - ::ffff:127.0.0.1
+2020-03-22 01:29:17 info [app.js]: MileStoneData getMilestone(days = 10) - Thu Mar 12 2020 01:29:16 GMT+0800 (Hong Kong Standard Time) -  /milestonedata/getmilestone?days=10 - POST - ::ffff:127.0.0.1
+2020-03-22 01:45:07 info [app.js]: VideoData insert - /videodata/insert - POST - ::ffff:127.0.0.1
+2020-03-22 01:45:23 info [app.js]: VideoData getVideo(default) - /videodata/getvideo - POST - ::ffff:127.0.0.1
+2020-03-22 01:47:42 info [app.js]: VideoData getVideo(days = 5) - Tue Mar 17 2020 01:47:42 GMT+0800 (Hong Kong Standard Time) -  /videodata/getvideo?days=5 - POST - ::ffff:127.0.0.1
+2020-03-22 01:47:55 info [app.js]: VideoData getVideo(default) - /videodata/getvideo?days=wqqwq - POST - ::ffff:127.0.0.1
+2020-03-22 01:48:14 info [app.js]: VideoData getVideo(days = 5) - Tue Mar 17 2020 01:48:14 GMT+0800 (Hong Kong Standard Time) -  /videodata/getvideo?days=5 - POST - ::ffff:127.0.0.1
+2020-03-22 01:51:50 info [app.js]: MileStoneData getMilestone(days = 10) - Thu Mar 12 2020 01:51:50 GMT+0800 (Hong Kong Standard Time) -  /milestonedata/getmilestone?days=10 - POST - ::ffff:127.0.0.1
+2020-03-22 01:55:48 info [app.js]: MileStoneData getMilestone(days = 10) - Thu Mar 12 2020 01:55:48 GMT+0800 (Hong Kong Standard Time) -  /milestonedata/getmilestone?days=10 - POST - ::ffff:127.0.0.1
+2020-03-22 01:56:53 info [app.js]: VideoData getVideo(days = 10) - Thu Mar 12 2020 01:56:53 GMT+0800 (Hong Kong Standard Time) -  /videodata/getvideo?days=10 - POST - ::ffff:127.0.0.1

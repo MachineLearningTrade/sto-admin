@@ -15,6 +15,23 @@ const BATCH_SIZE = 100000;
 const uri = "mongodb+srv://trgordonb:ensemble@cluster0-lvdi2.azure.mongodb.net/tokenadmin?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
+//Add by dick start
+//2020-03-20
+
+const bodyParser = require('body-parser');
+const tradedata = require('./routes/tradedata.route');
+const pressdata = require('./routes/pressdata.route');
+const milestonedata = require('./routes/milestonedata.route');
+const videodata = require('./routes/videodata.route');
+const mongoose = require('mongoose');
+let dev_db_uri = 'mongodb://stoadmin:ddr65536@127.0.0.1/STOTesting';
+let mongoDB = process.env.MONGODB_URI || dev_db_uri;
+mongoose.connect(mongoDB,{useNewUrlParser: true});
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on('err',console.error.bind(console,'MongoDB Connection Error.'));
+//Add by dick end
+
 function getConfigData() {
   return new Promise((resolve, reject) => {
       let configs = {};
@@ -49,6 +66,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(bodyParser.json());
+
+app.use('/tradedata',tradedata);
+app.use('/pressdata',pressdata);
+app.use('/milestonedata',milestonedata);
+app.use('/videodata',videodata);
 
 let indexerlist = {};
 
