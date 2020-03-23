@@ -1,0 +1,127 @@
+2020-03-23 00:04:19 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:06:13 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:06:17 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:07:16 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:09:44 info [app.js]: TokenDymanicData gettokendymaindata(S = FTT) -  /tokendymanic/gettokendymanicdata?symbol=FTT - POST - ::ffff:127.0.0.1
+2020-03-23 00:10:54 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:11:11 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:12:25 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:12:56 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:12:56 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:15:05 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:15:05 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:29:29 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:29:30 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:31:21 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:33:12 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:33:13 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:36:39 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:36:41 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 00:43:55 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 00:43:55 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 10:48:37 info [app.js]: [APP] Initial configs - TokensInfo and indexerlist
+2020-03-23 10:48:37 info [app.js]: [APP] Initial dynamic
+2020-03-23 10:48:39 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 10:48:39 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:02:48:39 +0000] "POST /tokensinfo/getTokensinfo HTTP/1.1" 200 884 "-" "-"
+
+2020-03-23 10:48:40 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 10:48:40 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:02:48:40 +0000] "POST /tokendymanic/gettokendymanicdata HTTP/1.1" 200 397 "-" "-"
+
+2020-03-23 11:07:22 info [app.js]: TradeData insert - /tradedata/insert - POST - ::ffff:127.0.0.1
+2020-03-23 11:07:22 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:07:22 +0000] "POST /tradedata/insert HTTP/1.1" 200 399 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 11:20:01 info [app.js]: TradeData insert - /tradedata/insert - POST - ::ffff:127.0.0.1
+2020-03-23 11:20:01 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:20:01 +0000] "POST /tradedata/insert HTTP/1.1" 200 412 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 11:21:01 info [app.js]: PressData insert - /pressdata/insert - POST - ::ffff:127.0.0.1
+2020-03-23 11:21:01 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:21:01 +0000] "POST /pressdata/insert HTTP/1.1" 200 605 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 11:21:35 info [app.js]: MileStoneData insert - /milestonedata/insert - POST - ::ffff:127.0.0.1
+2020-03-23 11:21:35 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:21:35 +0000] "POST /milestonedata/insert HTTP/1.1" 200 773 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 11:21:49 info [app.js]: VideoData insert - /videodata/insert - POST - ::ffff:127.0.0.1
+2020-03-23 11:21:49 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:21:49 +0000] "POST /videodata/insert HTTP/1.1" 200 396 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 11:21:58 info [app.js]: VideoData getVideo(days = 5) - Wed Mar 18 2020 11:21:58 GMT+0800 (Hong Kong Standard Time) -  /videodata/getvideo?days=5 - POST - ::ffff:127.0.0.1
+2020-03-23 11:21:58 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:03:21:58 +0000] "POST /videodata/getvideo?days=5 HTTP/1.1" 200 386 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 13:21:09 info [app.js]: [APP] Initial configs - TokensInfo and indexerlist
+2020-03-23 13:21:09 info [app.js]: [APP] Initial dynamic
+2020-03-23 13:21:10 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 13:21:10 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:21:10 +0000] "POST /tokensinfo/getTokensinfo HTTP/1.1" 200 884 "-" "-"
+
+2020-03-23 13:21:11 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 13:21:11 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:21:11 +0000] "POST /tokendymanic/gettokendymanicdata HTTP/1.1" 200 397 "-" "-"
+
+2020-03-23 13:21:21 info [app.js]: TradeData getTrade(default) - /tradedata/getTrade - POST - ::ffff:127.0.0.1
+2020-03-23 13:21:21 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:21:21 +0000] "POST /tradedata/getTrade HTTP/1.1" 200 1149 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 13:22:58 info [app.js]: TradeData getTrade(days = 5) - Wed Mar 18 2020 13:22:58 GMT+0800 (Hong Kong Standard Time) -  /tradedata/getTrade?days=5 - POST - ::ffff:127.0.0.1
+2020-03-23 13:22:58 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:22:58 +0000] "POST /tradedata/getTrade?days=5 HTTP/1.1" 200 908 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 13:23:05 info [app.js]: TradeData getTrade(days = 2) - Sat Mar 21 2020 13:23:05 GMT+0800 (Hong Kong Standard Time) -  /tradedata/getTrade?days=2 - POST - ::ffff:127.0.0.1
+2020-03-23 13:23:05 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:23:05 +0000] "POST /tradedata/getTrade?days=2 HTTP/1.1" 200 2 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 13:23:10 info [app.js]: TradeData getTrade(days = 4) - Thu Mar 19 2020 13:23:09 GMT+0800 (Hong Kong Standard Time) -  /tradedata/getTrade?days=4 - POST - ::ffff:127.0.0.1
+2020-03-23 13:23:10 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:05:23:10 +0000] "POST /tradedata/getTrade?days=4 HTTP/1.1" 200 570 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:05:37 info [app.js]: [APP] Initial configs - TokensInfo and indexerlist
+2020-03-23 14:05:37 info [app.js]: [APP] Initial dynamic
+2020-03-23 14:05:48 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 14:05:48 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:05:48 +0000] "POST /tokensinfo/getTokensinfo HTTP/1.1" 200 884 "-" "-"
+
+2020-03-23 14:05:53 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 14:05:53 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:05:53 +0000] "POST /tokendymanic/gettokendymanicdata HTTP/1.1" 200 397 "-" "-"
+
+2020-03-23 14:23:11 info [app.js]: TradeData getTrade(default) - /tradedata/getTrade - POST - ::ffff:127.0.0.1
+2020-03-23 14:23:11 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:23:11 +0000] "POST /tradedata/getTrade HTTP/1.1" 200 1149 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:24:47 info [app.js]: TradeData getTrade(days = 4) - Thu Mar 19 2020 14:24:47 GMT+0800 (Hong Kong Standard Time) -  /tradedata/getTrade?days=4 - POST - ::ffff:127.0.0.1
+2020-03-23 14:24:47 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:24:47 +0000] "POST /tradedata/getTrade?days=4 HTTP/1.1" 200 570 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:41:38 info [app.js]: PressData getPress(default) - /pressdata/getPress - POST - ::ffff:127.0.0.1
+2020-03-23 14:41:38 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:41:38 +0000] "POST /pressdata/getPress HTTP/1.1" 200 775 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:42:05 info [app.js]: PressData getPress(default) - /pressdata/getPress?days=kadwqe23123 - POST - ::ffff:127.0.0.1
+2020-03-23 14:42:05 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:42:05 +0000] "POST /pressdata/getPress?days=kadwqe23123 HTTP/1.1" 200 775 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:42:15 info [app.js]: PressData getPress(days = 5) - Wed Mar 18 2020 14:42:14 GMT+0800 (Hong Kong Standard Time) -  /pressdata/getPress?days=5 - POST - ::ffff:127.0.0.1
+2020-03-23 14:42:15 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:42:15 +0000] "POST /pressdata/getPress?days=5 HTTP/1.1" 200 253 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:50:31 info [app.js]: VideoData getVideo(default) - /videodata/getvideo - POST - ::ffff:127.0.0.1
+2020-03-23 14:50:31 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:50:31 +0000] "POST /videodata/getvideo HTTP/1.1" 200 593 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:51:00 info [app.js]: VideoData getVideo(days = 5) - Wed Mar 18 2020 14:51:00 GMT+0800 (Hong Kong Standard Time) -  /videodata/getvideo?days=5 - POST - ::ffff:127.0.0.1
+2020-03-23 14:51:00 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:51:00 +0000] "POST /videodata/getvideo?days=5 HTTP/1.1" 200 386 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:57:26 info [app.js]: MileStoneData getMilestone(default) - /milestonedata/getmilestone - POST - ::ffff:127.0.0.1
+2020-03-23 14:57:26 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:57:26 +0000] "POST /milestonedata/getmilestone HTTP/1.1" 200 1028 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:57:49 info [app.js]: MileStoneData getMilestone(default) - /milestonedata/getmilestone - POST - ::ffff:127.0.0.1
+2020-03-23 14:57:49 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:57:49 +0000] "POST /milestonedata/getmilestone HTTP/1.1" 200 1028 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:58:07 info [app.js]: MileStoneData getMilestone(days = 5) - Wed Mar 18 2020 14:58:07 GMT+0800 (Hong Kong Standard Time) -  /milestonedata/getmilestone?days=5 - POST - ::ffff:127.0.0.1
+2020-03-23 14:58:07 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:58:07 +0000] "POST /milestonedata/getmilestone?days=5 HTTP/1.1" 200 2 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:58:27 info [app.js]: MileStoneData getMilestone(default) - /milestonedata/getmilestone - POST - ::ffff:127.0.0.1
+2020-03-23 14:58:27 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:58:27 +0000] "POST /milestonedata/getmilestone HTTP/1.1" 200 1028 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 14:59:32 info [app.js]: MileStoneData getMilestone(days = 10) - Fri Mar 13 2020 14:59:32 GMT+0800 (Hong Kong Standard Time) -  /milestonedata/getmilestone?days=10 - POST - ::ffff:127.0.0.1
+2020-03-23 14:59:32 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:06:59:32 +0000] "POST /milestonedata/getmilestone?days=10 HTTP/1.1" 200 215 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:02:38 info [app.js]: TokensInfoData getTokeninfo(default) - /tokensinfo/getTokensinfo - POST - ::ffff:127.0.0.1
+2020-03-23 15:02:38 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:02:38 +0000] "POST /tokensinfo/getTokensinfo HTTP/1.1" 200 884 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:07:51 info [app.js]: TokensInfoData getTokeninfo(S = FTT) -  /tokensinfo/getTokensinfo?symbol=FTT - POST - ::ffff:127.0.0.1
+2020-03-23 15:07:51 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:07:51 +0000] "POST /tokensinfo/getTokensinfo?symbol=FTT HTTP/1.1" 200 385 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:10:40 info [app.js]: TokenDymanicData gettokendymaindata(default) - /tokendymanic/gettokendymanicdata - POST - ::ffff:127.0.0.1
+2020-03-23 15:10:40 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:10:40 +0000] "POST /tokendymanic/gettokendymanicdata HTTP/1.1" 200 397 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:11:11 info [app.js]: TokenDymanicData gettokendymaindata(S = FTT) -  /tokendymanic/gettokendymanicdata?symbol=FTT - POST - ::ffff:127.0.0.1
+2020-03-23 15:11:11 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:11:11 +0000] "POST /tokendymanic/gettokendymanicdata?symbol=FTT HTTP/1.1" 200 397 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:21:45 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:21:45 +0000] "GET /tokendymanic/getbalances HTTP/1.1" 404 163 "-" "PostmanRuntime/7.23.0"
+
+2020-03-23 15:25:46 info [app.js]: ::ffff:127.0.0.1 - - [23/Mar/2020:07:25:46 +0000] "GET /tokendymanic/getbalances/FTT HTTP/1.1" 200 434 "-" "PostmanRuntime/7.23.0"
+
