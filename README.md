@@ -1,9 +1,9 @@
-#API
+# API
 
 The API project follows MVC structure, each collection in DB will result in Model of Mongoose and each model will have associated insert/get api call.Summary as follow :
 
 |Model|PATH|API|METHOD|
-|-----|----|---||
+|-----|----|---|------|
 |tradedatas|/tradedata|||
 |||/insert|POST|
 |||/getTrade|POST|
@@ -22,7 +22,7 @@ The API project follows MVC structure, each collection in DB will result in Mode
 |tokens-dynamic-data|/tokendymanic||
 |||/insert|POST|
 |||/gettokendymanicdata|POST|
-|||/getbalances/{SYMBOLCODE}|GET|
+|||/getbalances/SYMBOLCODE|GET|
 
 ## Details
 
