@@ -3,3 +3,4 @@ package-lock.json
 .deployment
 .vscode
 azurecert.png
+log
