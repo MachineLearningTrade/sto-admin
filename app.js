@@ -14,7 +14,7 @@ const morgan = require('morgan');
 const API_TOKEN = 'b88eb77da3684106ab053f708cbde64f';
 const PORT = 5000;
 const PROVIDER = 'https://mainnet.infura.io/v3/' + API_TOKEN;
-const DEBUG = false;
+const DEBUG =true; 
 const BATCH_SIZE = 100000;
 const uri = "mongodb+srv://trgordonb:ensemble@cluster0-lvdi2.azure.mongodb.net/tokenadmin?retryWrites=true&w=majority";
 
@@ -69,25 +69,29 @@ request.post(
 		if(!error && response.statusCode==200){
 			 let data = JSON.parse(body);
 			 for(var i=0;i<data.length;i++){
+			 	logger.debug(`Init config for Symbol : ${data[i].SYMBOL}`);
                 app.configs[data[i].SYMBOL] = {
                       'ADDRESS': data[i].ADDRESS,
-                      'START_BLOCK': data[i].START_BLOCK,
-                      'DECIMAL': data[i].DECIMAL,
-                      'TOTAL_SUPPLY': data[i].TOTAL_SUPPLY,
+                      'START_BLOCK': data[i].START_BLOCK*1,
+                      'DECIMAL': data[i].DECIMAL*1,
+                      'TOTAL_SUPPLY': data[i].TOTAL_SUPPLY*1,
                       'MEMBERS': data[i].MEMBERS,
                       'TIMEZONE': data[i].TIMEZONE,
                       'MARKTIME': data[i].MARKTIME,
-                      'HISTORY_COUNT': data[i].HISTORY_COUNT
+                      'HISTORY_COUNT': data[i].HISTORY_COUNT*1
 				}
     			const indexer = new Indexer({ 
  				address: data[i].ADDRESS, 
-  				startBlock: data[i].START_BLOCK, 
+  				startBlock: data[i].START_BLOCK*1, 
    				provider: PROVIDER, 
    				debug: DEBUG,
    				batchSize: BATCH_SIZE
     			});
+			 	logger.debug(`Init indexer for Symbol : ${data[i].SYMBOL}, Start Block: ${indexer.startBlock}`);
     			app.indexerlist[data[i].SYMBOL] = indexer;
     			app.indexerlist[data[i].SYMBOL].start();
+			 	logger.debug(`Init ${i} Done`); 
+
 			 }
 		}else{
 		}
