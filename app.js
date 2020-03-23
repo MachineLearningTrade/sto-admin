@@ -12,11 +12,12 @@ const morgan = require('morgan');
 
 // Variable declare
 const API_TOKEN = 'b88eb77da3684106ab053f708cbde64f';
-const PORT = 5000;
+const PORT = process.env.PORT ||5000;
 const PROVIDER = 'https://mainnet.infura.io/v3/' + API_TOKEN;
 const DEBUG =true; 
 const BATCH_SIZE = 100000;
 const uri = "mongodb+srv://trgordonb:ensemble@cluster0-lvdi2.azure.mongodb.net/tokenadmin?retryWrites=true&w=majority";
+const hosturl = process.env.HOSTNAME || `http://127.0.0.1:${PORT}`
 
 // Initial DB Connection
 let mongoDB = process.env.MONGODB_URI || uri;
@@ -63,7 +64,7 @@ app.dymanic = {};
 // Initialize configs with getTokensinfo and indexerlist
 logger.info("[APP] Initial configs - TokensInfo and indexerlist")
 request.post(
-	'http://127.0.0.1:5000/tokensinfo/getTokensinfo',
+	`${hosturl}/tokensinfo/getTokensinfo`,
 	{},
 	function(error,response,body){
 		if(!error && response.statusCode==200){
@@ -100,7 +101,7 @@ request.post(
 logger.info("[APP] Initial dynamic");
 //Initialize dymanic with gettokendymaindata 
 request.post(
-	'http://127.0.0.1:5000/tokendymanic/gettokendymanicdata',
+	`${hosturl}/tokendymanic/gettokendymanicdata`,
 	{},
 	function(error,response,body){
 		if(!error && response.statusCode==200){
