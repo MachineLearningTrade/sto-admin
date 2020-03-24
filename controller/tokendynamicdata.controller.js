@@ -87,8 +87,8 @@ exports.getbalances = function(req,res){
             historyLength = req.app.dymanic[symbol].PRICE_HISTORY.length;
           }
           if (req.app.dymanic[symbol].BALANCE_HISTORY.hasOwnProperty(member) && req.app.dymanic[symbol].BALANCE_HISTORY[member].length == historyLength) {
-            let marketCap_start = req.app.dymanic[symbol].BALANCE_HISTORY[member][0] * req.app.dymanic[symbol].PRICE_HISTORY[0];
-            let marketCap_end = req.app.dymanic[symbol].BALANCE_HISTORY[member][historyLength-1] * req.app.dymanic[symbol].PRICE_HISTORY[historyLength-1];
+            let marketCap_start = req.app.dymanic[symbol].BALANCE_HISTORY[member][0] * req.app.dymanic[symbol].PRICE_HISTORY[0]['$numberDecimal'];
+            let marketCap_end = req.app.dymanic[symbol].BALANCE_HISTORY[member][historyLength-1] * req.app.dymanic[symbol].PRICE_HISTORY[historyLength-1]['$numberDecimal'];
             let change = parseFloat(100 * (marketCap_end - marketCap_start) / marketCap_start).toFixed(2);
             memberCapChange[member] = change ;
           } else {

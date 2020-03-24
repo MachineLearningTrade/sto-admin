@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 let TokenDymanicDataSchema= new Schema({
 	SYMBOL:{type: String, required: true, unique: true},
 	PRICE_HISTORY:{type :[Schema.Types.Decimal128] , required: false},
-	BALANCE_HISTORY:{type :[Object] , required: false},
+	BALANCE_HISTORY:{type :Object , required: false},
 	});
 
 
