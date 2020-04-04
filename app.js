@@ -9,33 +9,7 @@ const mongoose = require('mongoose');
 const request = require('request');
 const logger = require('./lib/logger');
 const morgan = require('morgan');
-
-// Variable declare
-const API_TOKEN = 'b88eb77da3684106ab053f708cbde64f';
-const PORT = process.env.PORT ||5000;
-const PROVIDER = 'https://mainnet.infura.io/v3/' + API_TOKEN;
-const DEBUG =true; 
-const BATCH_SIZE = 100000;
-const uri = "mongodb+srv://trgordonb:ensemble@cluster0-lvdi2.azure.mongodb.net/tokenadmin?retryWrites=true&w=majority";
-const hosturl = process.env.HOSTNAME || `http://127.0.0.1:${PORT}`
-
-// Initial DB Connection
-let mongoDB = process.env.MONGODB_URI || uri;
-mongoose.connect(mongoDB,{useNewUrlParser: true});
-mongoose.Promise = global.Promise;
-let db = mongoose.connection;
-db.on('err',err=>logger.error('MongoDB Connection Fail :',err));
-
-//Router Declare
 const bodyParser = require('body-parser');
-const tradedata = require('./routes/tradedata.route');
-const pressdata = require('./routes/pressdata.route');
-const milestonedata = require('./routes/milestonedata.route');
-const videodata = require('./routes/videodata.route');
-const tokensinfodata = require('./routes/tokensinfo.route');
-const tokendymaindata = require('./routes/tokendymanic.route');
-
-
 
 //app setting
 const app = express();
@@ -49,6 +23,34 @@ app.use(express.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
+// Variable declare
+const API_TOKEN = 'b88eb77da3684106ab053f708cbde64f';
+const PORT = process.env.PORT ||5000;
+const PROVIDER = 'https://mainnet.infura.io/v3/' + API_TOKEN;
+const DEBUG =true; 
+const BATCH_SIZE = 100000;
+const uri = "mongodb+srv://trgordonb:ensemble@cluster0-lvdi2.azure.mongodb.net/tokenadmin?retryWrites=true&w=majority";
+app.hosturl = process.env.HOSTNAME || `http://127.0.0.1:${PORT}`;
+
+// Initial DB Connection
+let mongoDB = process.env.MONGODB_URI || uri;
+mongoose.connect(mongoDB,{useNewUrlParser: true});
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on('err',err=>logger.error('MongoDB Connection Fail :',err));
+
+//Router Declare
+const tradedata = require('./routes/tradedata.route');
+const pressdata = require('./routes/pressdata.route');
+const milestonedata = require('./routes/milestonedata.route');
+const videodata = require('./routes/videodata.route');
+const tokensinfodata = require('./routes/tokensinfo.route');
+const tokendymaindata = require('./routes/tokendymanic.route');
+const pricehistory = require('./routes/pricehistory.route');
+const avgvaluedata = require('./routes/avgvaluedata.route');
+
+
 //Router mapping 
 app.use('/tradedata',tradedata);
 app.use('/pressdata',pressdata);
@@ -56,6 +58,8 @@ app.use('/milestonedata',milestonedata);
 app.use('/videodata',videodata);
 app.use('/tokensinfo',tokensinfodata);
 app.use('/tokendymanic',tokendymaindata);
+app.use('/pricehistory',pricehistory);
+app.use('/avgvaluedata',avgvaluedata);
 
 app.indexerlist = {}; // for sharing with TokenDymanicData
 app.configs = {};
@@ -64,7 +68,7 @@ app.dymanic = {};
 // Initialize configs with getTokensinfo and indexerlist
 logger.info("[APP] Initial configs - TokensInfo and indexerlist")
 request.post(
-	`${hosturl}/tokensinfo/getTokensinfo`,
+	`${app.hosturl}/tokensinfo/getTokensinfo`,
 	{},
 	function(error,response,body){
 		if(!error && response.statusCode==200){
@@ -101,7 +105,7 @@ request.post(
 logger.info("[APP] Initial dynamic");
 //Initialize dymanic with gettokendymaindata 
 request.post(
-	`${hosturl}/tokendymanic/gettokendymanicdata`,
+	`${app.hosturl}/tokendymanic/gettokendymanicdata`,
 	{},
 	function(error,response,body){
 		if(!error && response.statusCode==200){

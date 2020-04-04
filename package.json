@@ -15,6 +15,7 @@
   "author": "Ensemble Technologies",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "bignumber.js": "8.1.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.5",

@@ -1,7 +1,7 @@
 const tokendymanicdata = require('../model/token-dymanic-data.model');
 const _ = require('lodash');
 const logger = require('../lib/logger');
-
+const request = require('axios');
 exports.test = function (req,res){
 	res.send('Testinggggg');
 };
@@ -76,34 +76,37 @@ exports.gettokendymanicdata = function(req,res){
 exports.getbalances = function(req,res){
       var symbol = req.params.symbol;
       if (req.app.indexerlist.hasOwnProperty(symbol)) {
+		logger.info(`TokenDymanicData getbalances(S = ${symbol}) -  ${req.originalUrl} - ${req.method} - ${req.ip}`);
         const decimal_factor = 10 ** (-req.app.configs[symbol].DECIMAL);
         var _balances = _.mapValues(req.app.indexerlist[symbol].getBalances(), b => b*decimal_factor);
         var orderedBal = _(_balances).toPairs().orderBy([1],['desc']).fromPairs().value();
         var memberCapChange = {};
-        for (var i=0; i < req.app.configs[symbol].MEMBERS.length; i++) {
-          let member = req.app.configs[symbol].MEMBERS[i];
-          let historyLength = req.app.configs[symbol].HISTORY_COUNT;
-          if (historyLength == -1) {
-            historyLength = req.app.dymanic[symbol].PRICE_HISTORY.length;
-          }
-          if (req.app.dymanic[symbol].BALANCE_HISTORY.hasOwnProperty(member) && req.app.dymanic[symbol].BALANCE_HISTORY[member].length == historyLength) {
-            let marketCap_start = req.app.dymanic[symbol].BALANCE_HISTORY[member][0] * req.app.dymanic[symbol].PRICE_HISTORY[0]['$numberDecimal'];
-            let marketCap_end = req.app.dymanic[symbol].BALANCE_HISTORY[member][historyLength-1] * req.app.dymanic[symbol].PRICE_HISTORY[historyLength-1]['$numberDecimal'];
-            let change = parseFloat(100 * (marketCap_end - marketCap_start) / marketCap_start).toFixed(2);
-            memberCapChange[member] = change ;
-          } else {
-            memberCapChange[member] = '0';
-          }
-        }
-        res.status(200).send({
-          "data": _.mapValues(orderedBal, b => b.toString(10)),
-          "supply": req.app.configs[symbol].TOTAL_SUPPLY,
-          "members": memberCapChange
-        });
+		(async function(){
+			let param={"symbol":symbol,"address":req.app.configs[symbol].MEMBERS};
+			let supply=req.app.configs[symbol].TOTAL_SUPPLY;
+			try{
+				logger.info(`TokenDymanicData getbalances(S = ${symbol}) getavgvaluechange`);
+				let resp= await request.post(`${req.app.hosturl}/avgvaluedata/getavgvaluechange`,param);
+				for(let i=0;i<resp.data.length;i++){
+					memberCapChange[resp.data[i].address]={"change":resp.data[i].changepercent,"qty":(resp.data[i].qty["$numberDecimal"]/supply*100)};
+				}
+        		res.status(200).json({
+          		"data": _.mapValues(orderedBal, b => b.toString(10)),
+          		"supply": req.app.configs[symbol].TOTAL_SUPPLY,
+          		"members": memberCapChange
+        		});
+			}catch(error){
+				logger.error(`TokenDymanicData getbalances(S = ${symbol}) getavgvaluechange - ${error} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        		res.status(500).send({"function":"TokenDymanicData getbalances",
+									  "error":"getavgvaluechange error",
+									  "detail":error});
+		 	}
+		 })();//asyn getavgvaluechange end
+
       } else {
-        res.status(500).send({
-          "data": "No symbol found"
-        });
+        	res.status(500).send({"function":"TokenDymanicData getbalances",
+								  "error":"No Symbol found in the indexer",
+								  "detail":Object.keys(req.app.indexerlist)});
       }
 };
 

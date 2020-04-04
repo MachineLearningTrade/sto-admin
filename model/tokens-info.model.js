@@ -13,7 +13,13 @@ let TokensInfoDataSchema= new Schema({
 	MARKTIME:{type: String, required:false},
 	HISTORY_COUNT:{type: Number, required:false},
 	MEMBERS:{type: [String], required:false},
-		});
+	//New field from Requirement 1.4 31/03/2020
+	priceupdateinterval:{type: String,required: true, default:"snap"},
+	pricefeedmode:{type: String,required: true, default: "RESTFUL"},
+	pricehost:{type: String,required: true},
+	priceAPIname:{type: String,required:true},
+	basecurrency:{type: String,required:true,default:"HKD"}
+	});
 
 
 
