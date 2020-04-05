@@ -132,7 +132,7 @@ module.exports = class ERC20Indexer {
     this.timeout = setTimeout(async () => {
       await this.processNewBlocks()
       this.start();
-    }, 1000);
+    }, 1000*60);
   }
 
   async stop() {

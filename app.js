@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 
 // Variable declare
-const API_TOKEN = 'b88eb77da3684106ab053f708cbde64f';
+const API_TOKEN = 'd1f5da212dcd4fc597026f9b3617b008';
 const PORT = process.env.PORT ||5000;
 const PROVIDER = 'https://mainnet.infura.io/v3/' + API_TOKEN;
 const DEBUG =true; 
