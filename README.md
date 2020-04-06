@@ -23,6 +23,14 @@ The API project follows MVC structure, each collection in DB will result in Mode
 |||/insert|POST|
 |||/gettokendymanicdata|POST|
 |||/getbalances/SYMBOLCODE|GET|
+|avgvaluedata|/avgvaluedata||
+|||/insert|POST|
+|||/updateavgvalue|POST|
+|||/getavgvaluedatachange/|POST param:{symbol,array or address}|
+|||/getavgvaluedata/SYMBOLCODE&ADDRESS?|POST|
+|price_history|/pricehistory||
+|||/insert|POST|
+|||/getPrice/symbolcode|POST|
 
 ## Details
 
@@ -687,6 +695,183 @@ http://127.0.0.1:5000/tokendymanic/getbalances/FTT
 }
 </pre>
 
+
+### /avgvaluedata
+|Name        |<POST> /insert|
+|---|---|
+  |In          | avgvaluedata record in json format, post in body with batch as key| 
+  |Out         | <p>If all records are valid according to model specification, records will be save in DB and original records will be return </p><p> If any validation error is occured, error will return and nothing will be save in DB<p>| 
+  |Description |Insert avgvaluedata from json format in req body with "batch" as key and list as data , data will be save in All or nothing fashion.Those records will be validate according to Model definition before save in db.It will return error immediately on the first error encounter|
+
+Sample  of Insert data: 
+<pre>
+{
+    "batch": [
+     
+        {
+            "HOLDERADDRESS": "0xaB5C66752a9e8167967685F1450532fB96d5d24f",
+            "SYMBOL": "FTT",
+            "MANUAL": false,
+            "PRICE":"4",
+            "QTY":"10",
+            "CURRENTAVGVALUE":"1.2"
+        }
+        
+    ]
+}
+</pre> 
+
+  |Name        | < POST > /updateavgvalue?symbol=symbolcode</br>| 
+  |--|--|
+  |In          | query with params symbol  | 
+  |Out         | <p>Success : it will return response 200 and status=success to sender with records on update and insert</p><p>Fail    : If holding is empty list or symbol is not provided or empty string, it will return status 500</p>If any error occurs during update or insert, or the avgdata list is not empty at the end, it will still return status 200 to send but will status=fail in the return message with record of errorlist</p>|
+  |Description | <p>This function is used to update the record in avgvaluedata according to the formula in requirement 1.4</p><p>Please kindly noted that the whole block of for loop on holding list until the return statement is in async function and await is declared on update and insert to ensure the data is update/insert in sequence.</p><br>First, it will get the <p>1. latest price of symbol(lastprice)</p><p>2. avgvalue record for that symbol(avgdata)</p><p>3. current holding from getbalance(holding)</p><br>If all data return successfully, it will loop though holding to consume the record in avgdata<p>1. if find in avgdata </p><p>a. update record with lastprice and calcuate the update currentavgvalue</p><p>2. if not find in avgdata</p><p>a. it is a new holder, thise record will insert to avgdata</p><br>If any error occurs during the loop, it will mark it down and continuous on others| 
+  
+Sample 1: 
+http://127.0.0.1:5000/avgvaluedata/updateavgvalue?symbol=FTT
+<pre>
+
+</pre>
+
+Sampe 2 :
+http://127.0.0.1:5000/tokendymanic/gettokendymanicdata?symbol=FTT
+
+</pre>
+
+
+  |Name        | < POST > /getavgvaluechange/</br> | 
+  |--|--|
+  |In          | param in body with json : { "symbol":"code","address":[array of address]} | 
+  |Out         | Success : JSON record will be return for those specific symbol and  address with change% and share% order by update time desc</br>Fail    : <p>If Symbol or address is not persent or either one is empty, error 500 will return</p><p>If query retrun error , status 500 will retrun</p>| 
+  |Description | This function is used to calculate the change percentage  in valuation in comparison with latest price snapshot and the share% of current holding in individual avgvaluedata record. | 
+  
+Sample 1: http://127.0.0.1:5000/avgvaluedata/getavgvaluechange</br> 
+In :
+<pre>
+{
+	"symbol":"FTT",
+	"address":["0x97137466Bc8018531795217f0EcC4Ba24Dcba5c1","0xd769010D3813bAFAf4aDdbfe258EAFD07828bB83"]
+}
+</pre>
+Out: 
+<pre>
+[
+    {
+        "address": "0x97137466Bc8018531795217f0EcC4Ba24Dcba5c1",
+        "changepercent": 40,
+        "qty": {
+            "$numberDecimal": "48066857.73432889"
+        }
+    },
+    {
+        "address": "0xd769010D3813bAFAf4aDdbfe258EAFD07828bB83",
+        "changepercent": 40,
+        "qty": {
+            "$numberDecimal": "197787706.0839923"
+        }
+    }
+]
+</pre>
+
+
+  |Name        | < POST > /getavgvaluedata/?symbol=xx&address=xxxxx</br> optional address| 
+  |--|--|
+  |In          | symbol or (symbol,address) | 
+  |Out         | Success : <p>1. if only symbol is given, all record regarding to that symbol will be return order by update time desc</p><p>2. if symbol and address is given, record for that specific address and symbol will be return order by update time desc</p> The record will be format with key value pair while key is the address and value is the record</br>Fail    : <p>if symbol is not present or either symbol or address is empty, error 500 will be return</p><p>if query fail, error 500 will return </p>| 
+|Description | This function is used to get avgvaluedata records| 
+  
+Sample 1: http://127.0.0.1:5000/avgvaluedata/getavgvaluedata?symbol=FTT
+
+Out: 
+<pre>
+{
+    "0x1D3d03C37c65D92E146a90a544403960D0FB4549": {
+        "MANUAL": false,
+        "_id": "5e886622ef3405360ccab04b",
+        "HOLDERADDRESS": "0x1D3d03C37c65D92E146a90a544403960D0FB4549",
+        "SYMBOL": "FTT",
+        "PRICE": {
+            "$numberDecimal": "14"
+        },
+        "QTY": {
+            "$numberDecimal": "169.44000000000003"
+        },
+        "CURRENTAVGVALUE": {
+            "$numberDecimal": "10"
+        },
+        "__v": 0,
+        "createdAt": "2020-04-04T10:49:06.479Z",
+        "updatedAt": "2020-04-04T12:22:01.222Z"
+    },
+    "0x5Ad6374d0170Ddd0B2fDf27eC83585273b2CE9A9": {
+        "MANUAL": false,
+        "_id": "5e884f1bccb0e32998737b57",
+        "HOLDERADDRESS": "0x5Ad6374d0170Ddd0B2fDf27eC83585273b2CE9A9",
+        "SYMBOL": "FTT",
+        "PRICE": {
+            "$numberDecimal": "14"
+        },
+        "QTY": {
+            "$numberDecimal": "1E-18"
+        },
+        "CURRENTAVGVALUE": {
+            "$numberDecimal": "10"
+        },
+        "__v": 0,
+        "createdAt": "2020-04-04T09:10:52.067Z",
+        "updatedAt": "2020-04-04T12:22:22.120Z"
+    },........
+</pre>
+
+
+### /pricehistory
+|Name        |<POST> /insert|
+|---|---|
+  |In          | price_history record in json format, post in body with batch as key| 
+  |Out         | <p>If all records are valid according to model specification, records will be save in DB and original records will be return </p><p> If any validation error is occured, error will return and nothing will be save in DB<p>| 
+  |Description |Insert avgvaluedata from json format in req body with "batch" as key and list as data , data will be save in All or nothing fashion.Those records will be validate according to Model definition before save in db.It will return error immediately on the first error encounter|
+
+Sample  of Insert data: 
+<pre>
+[
+    {
+        "MANUAL": true,
+        "_id": "5e887bcd932c08403c4dfa8a",
+        "SYMBOL": "FTT",
+        "PRICE": {
+            "$numberDecimal": "14"
+        },
+        "CURRENCY": "HKD",
+        "__v": 0,
+        "createdAt": "2020-04-04T12:21:33.396Z",
+        "updatedAt": "2020-04-04T12:21:33.396Z"
+    }
+]
+</pre> 
+
+  |Name        | < POST > /getPrice?symbol=xxxx&currency=xxx</br>| 
+  |--|--|
+  |In          | symbol and currency  | 
+  |Out         | <p>Success : The latest update price record for that symbol and currency will be return</p><p>Fail    : if either symbol or curreny is missing or empty , error 500 will be return</p>| 
+  
+Sample 1: 
+http://127.0.0.1:5000/pricehistory/getprice?symbol=FTT&currency=HKD
+<pre>
+{
+    "batch": [
+         {
+        	"SYMBOL": "FTT",
+            "MANUAL": true,
+            "PRICE": "14",
+            "CURRENCY":"HKD"
+        }
+        
+    ]
+}
+</pre>
+
+
+
 # Model
 
 ## tradedatas
@@ -736,6 +921,11 @@ http://127.0.0.1:5000/tokendymanic/getbalances/FTT
 | MARKTIME | String  | no |
 | HISTORY_COUNT | Number  | no |
 | MEMBERS | Array of String  | no |
+| priceupdateinterval| String | yes ,default:snap  |
+| pricefeedmode | String | yes, default:RESTFUL |
+| pricehost | String  | yes |
+| priceAPIname | String  | yes |
+| basecurrency | String  | yes , default:HKD |
 
 ## tokens-dynamic-data
 | FieldName |DataType   |Required |
@@ -743,3 +933,22 @@ http://127.0.0.1:5000/tokendymanic/getbalances/FTT
 | SYMBOL | String  | yes , unique=yes  |
 | PRICE_HISTORY| Array of Decimal128  | no |
 | BALANCE_HISTORY | Array of Object | no  |
+
+## avgvaluedata
+| FieldName |DataType   |Required |
+| ------------ | ------------ | ------------ |
+| HOLDERADDRESS | String  | yes , composite key |
+| SYMBOL| String | yes , composite key  |
+| MANUAL | boolean | no, default false  |
+| Price | Decimal128 | no  |
+| Qty | Decimal128 | no  |
+| CURRENTAVGVALUE | Decimal128 | no  |
+
+
+## price_history
+| FieldName |DataType   |Required |
+| ------------ | ------------ | ------------ |
+| SYMBOL | String  | yes   |
+| MANUAL| boolean | no , default : false |
+| PRICE | Decimal128 | no  |
+| Currency | String | no  |
