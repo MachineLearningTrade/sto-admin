@@ -33,10 +33,11 @@ exports.insert = function(req,res){
 
 };
 
-//Name        : 
-//In          :   
-//Out         :
-//Description :
+//Name        : getPrice
+//In          : symbol and currency
+//Out         : Success : The latest update price record for that symbol and currency will be return 
+//				Fail    : if either symbol or curreny is missing or empty , error 500 will be return
+//Description : This function is used to return the latest update record on price for the specific symbol
 exports.getPrice = function(req,res){
 		let s = req.query.symbol;
 		let c = req.query.currency;
