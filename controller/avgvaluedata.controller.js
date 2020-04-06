@@ -3,41 +3,63 @@ const avgvaluedata = require('../model/avgvaluedata.model');
 const request = require('axios');
 const logger = require('../lib/logger');
 
+//Name        : getdata
+//In          : request, response , symbol
+//Out         : Success :An array will be return [lastprice,avgdata,current holding] if those accessor call return successfully.
+//				Error   :Erro Status 500 with json error message will be return to original sender if any accessor is failed.
+//Description : This function is internal used by updateavgvalue for getting required data for calcuation.
+//				Those are from avgvaluedata, price_history,getbalacne return(data section)
+//				This function is declared as async and with await at the return statement in order to
+//				wait until those data are avaliable for next step on calcuation.
+//Assumption  : symbol is already verified and is not equal to empty string ,null or undefined
 const getdata = async function(req,res,s){
 	let lastprice =0;
 	let avgdata ={};
-	let response={};
 	let holding=null;
+	let pricerequest=null;
+	let avgdatarequest=null;
+	let holdingrequest=null;
+	
 	try{
-		response = await request.post(`${req.app.hosturl}/pricehistory/getprice?symbol=${s}&currency=HKD`)
-		for(var i=0;i<response.data.length;i++){
-			lastprice=response.data[i].PRICE['$numberDecimal']*1;
-			logger.info(`-- 1. AvgValueData updateavgvalue for Symbol : ${response.data[i].SYMBOL} get lastprice : ${lastprice}`);
-		}
+			pricerequest = request.post(`${req.app.hosturl}/pricehistory/getprice?symbol=${s}&currency=HKD`).then((response)=>{
+			for(var i=0;i<response.data.length;i++){
+				lastprice=response.data[i].PRICE['$numberDecimal']*1;
+				logger.info(`-- 1. AvgValueData updateavgvalue for Symbol : ${response.data[i].SYMBOL} get lastprice : ${lastprice}`);
+			}
+			if(lastprice<=0){
+				throw("lastprice is <=0");
+			}
+
+		});
 	}catch(error){
 		//getprice error
 		logger.error(`-- 1. AvgValueData updateavgvalue() -S:=${s} - getprice error - ${error}}`);
 		res.status(500).json({"function":"AvgValueData updateavgvalue()","error":"getPrice error","detail":error});
 	}	
 	try{
-		response = await request.post(`${req.app.hosturl}/avgvaluedata/getavgvaluedata?symbol=${s}`);
-		avgdata = response.data;
-		logger.info(`-- 2. AvgValueData updateavgvalue for Symbol : ${s} getavgvaluedata`);
-		logger.debug(`-- Symbol : ${s} getavgvaluedata key length : ${Object.keys(avgdata).length}`);
+			avgdatarequest = request.post(`${req.app.hosturl}/avgvaluedata/getavgvaluedata?symbol=${s}`).then((response)=>{
+			avgdata = response.data;
+			logger.info(`-- 2. AvgValueData updateavgvalue for Symbol : ${s} getavgvaluedata`);
+			logger.debug(`-- Symbol : ${s} getavgvaluedata key length : ${Object.keys(avgdata).length}`);
+
+		});
 	}catch(error){
 		logger.error(`-- 2. AvgValueData updateavgvalue() -S:=${s} - getavgvaluedata error -${error}`);
 		res.status(500).json({"function":"AvgValueData getavgvaluedata()","error":"getavgvaluedata error","detail":error});
 	}
 	try{
-		response= await request.get(`${req.app.hosturl}/tokendymanic/getbalances/${s}`);
-		logger.info(`-- 3. AvgValueData updateavgvalue for S: ${s} getbalances`);
-		holding=response.data["data"];
-		logger.debug(`-- Symbol : ${s} getbalances key length: ${Object.keys(holding).length}`);
+			holdingrequest = request.get(`${req.app.hosturl}/tokendymanic/getbalances/${s}`).then((response)=>{
+			logger.info(`-- 3. AvgValueData updateavgvalue for S: ${s} getbalances`);
+			holding=response.data["data"];
+			logger.debug(`-- Symbol : ${s} getbalances key length: ${Object.keys(holding).length}`);
+		});
 	}catch(error){
 		logger.error(`-- 3. AvgValueData updateavgvalue() -S: ${s} - getbalances error - ${error}`);
 		res.status(500).json({"function":"AvgValueData getavgvaluedata()","error":"getbalances error","detail":error});
 	}
-	return [lastprice,avgdata,holding];
+
+	 await request.all([pricerequest,avgdatarequest,holdingrequest]);
+	 return [lastprice,avgdata,holding];
 };
 
 exports.test = function (req,res){
@@ -71,10 +93,27 @@ exports.insert = function(req,res){
 
 };
 
-//Name        : insert
-//In          : press record in json format, post in body with batch as key
-//Out         : If all records are valid according to model specification, records will be save 
-//Description :
+//Name        : updateavgvalue
+//In          : symbol
+//Out         : Success : it will return response 200 and status=success to sender with records on update and insert
+//            : Fail    : If holding is empty list or symbol is not provided or empty string, it will return status 500 
+//                      : If any error occurs during update or insert, or the avgdata list is not empty at the end,
+//                        it will still return status 200 to send but will status=fail in the return message with record of errorlist
+//Description : This function is used to update the record in avgvaluedata according to the formula in requirement 1.4
+//				Please kindly noted that the whole block of for loop on holding list until the return statement is in async function
+//				and await is declared on update and insert to ensure the data is update/insert in sequence.
+//				First, it will get the 
+//					1. latest price of symbol(lastprice)
+//					2. avgvalue record for that symbol(avgdata)
+//					3. current holding from getbalance(holding)
+//				If all data return successfully, it will loop though holding to consume the record in avgdata
+//					1. if find in avgdata 
+//						a. update record with lastprice and calcuate the update currentavgvalue
+//					2. if not find in avgdaa
+//						a. it is a new holder, thise record will insert to avgdata
+//				If any error occurs during the loop, it will mark it down and continuous on others
+//
+//Assumption  : Current holding list(holding from getbalance) is assumed to be universal holding set of the symbol 
 exports.updateavgvalue = function(req,res){
 		let s=req.query.symbol
 		let lastprice=0;
@@ -142,7 +181,7 @@ exports.updateavgvalue = function(req,res){
 					else{
 						logger.info(`-- 5. AvgValueData updateavgvalue() - insert NewRecord Success`);
 					}
-					});
+					});//end of insert statement
 					let hrinsertend =process.hrtime(hrinsert);
 					//Preparing update result
 					let remain = Object.keys(avgdata).length; let ss="Success";
@@ -166,7 +205,7 @@ exports.updateavgvalue = function(req,res){
 					logger.error(`AvgValueData updateavgvalue() holding list is empty - ${Object.keys(holding).length}`);
 					res.status(500).json({"function":"AvgValueData updateavgvalue()","error":"holding list is empty"});
 				}
-			});// getdata then end
+			});// getdata then() end
 		}
 		else{
 			// Missing Para Symbol
@@ -175,10 +214,14 @@ exports.updateavgvalue = function(req,res){
 		}
 }
 
-//Name        : 
-//In   		  :
-//Out         :
-//Description :
+//Name        : getavgvaluechagne
+//In   		  : symbol , array of address
+//Out         : Success : JSON record will be return for those specific symbol and  address with change% and holding qty order by update time desc
+//			  : Fail    : If Symbol or address is not persent or either one is empty, error 500 will return
+//			  			  If query retrun error , status 500 will retrun 
+//Description : This function is used to calculate the change percentage  in valuation in comparison with latest price snapshot
+//				and the current holding in individual avgvaluedata record.
+//Assumption  : None
 exports.getavgvaluechange = function(req,res){
 		let a=req.body.address;
 		let s=req.body.symbol;
@@ -193,8 +236,7 @@ exports.getavgvaluechange = function(req,res){
 								logger.info(`AvgValueData getavgvaluechange(symbol,address) -S:=${s}, address:=${a} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 								for(var i=0;i<docs.length;i++){
 									let obj = JSON.parse(JSON.stringify(docs[i]));
-									logger.debug(`AvgValueData getavgvaluechange(symbol,address) -S:=${s}, address:=${obj.HOLDERADDRESS} - Price:=${obj.PRICE['$numberDecimal']}`);
-									logger.debug(`AvgValueData getavgvaluechange(symbol,address) -S:=${s}, address:=${obj.HOLDERADDRESS} - CurrentAvg:=${obj.CURRENTAVGVALUE['$numberDecimal']}`);
+									logger.debug(`AvgValueData getavgvaluechange(symbol,address) -S:=${s}, address:=${obj.HOLDERADDRESS} - Price:=${obj.PRICE['$numberDecimal']} -Current avg value:=${obj.CURRENTAVGVALUE['$numberDecimal']}`);
 									let change=(obj.PRICE['$numberDecimal']*1-obj.CURRENTAVGVALUE['$numberDecimal']*1);
 									let percentage=((change/obj.CURRENTAVGVALUE['$numberDecimal']*1)*100)
 									logger.info(`AvgValueData getavgvaluechange(symbol,address) -S:=${s}, address:=${obj.HOLDERADDRESS} - change:=${change}`);
@@ -217,10 +259,16 @@ exports.getavgvaluechange = function(req,res){
 };
 
 
-//Name        : 
-//In   		  :
-//Out         :
-//Description :
+//Name        : getavgvalue
+//In   		  : symbol or (symbol,address)
+//Out         : Success : 
+//						1. if only symbol is given, all record regarding to that symbol will be return order by update time desc
+//						2. if symbol and address is given, record for that specific address and symbol will be return by update time desc
+//							The record will be format with key value pair while key is the address and value is the record
+//				Fail    : if symbol is not present or either symbol or address is empty, error 500 will be return
+//						  if query fail, error 500 will return 
+//Description : This function is used to get avgvaluedata records
+//Assumption  : none
 exports.getavgvaluedata = function(req,res){
 		let a=req.query.address;
 		let s=req.query.symbol;
@@ -235,7 +283,11 @@ exports.getavgvaluedata = function(req,res){
 								res.status(500).send(err);
 						}else{
 								logger.info(`AvgValueData getavgvaluedata(symbol,address) -S:=${s},address:=${a} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-								res.send(docs);
+								var obj={};
+								for(var i=0;i<docs.length;i++){
+									r[docs[i].HOLDERADDRESS]=docs[i];
+								}
+								res.json(r);
 						}});
 						
 				}else{
