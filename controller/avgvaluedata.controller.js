@@ -132,7 +132,17 @@ exports.updateavgvalue = function(req,res){
 					logger.info(`AvgValueData updateavgvalue for Symbol : ${s} Processing holding list, list szie :${Object.keys(holding).length}, Time :${new Date()}`);
 					let hrprocess=process.hrtime();
 					// Assume holding is the universal set of address
+					
 					(async function(){
+					//update the lastprice for all holder first to reduce the update call
+					await avgvaluedata.updateMany({"SYMBOL":s},{"PRICE":lastprice*1},function(err,docs){
+						if(err){
+							logger.error(`-- 4. updateavgvalue s:${s} for All holder LastPrice Error - ${err}`);
+							res.status(500).json({"function":"AvgValueData updateavgvalue()","error":"update LastPrice for all holder failed","detail":err});
+						}else{
+							logger.info(`-- 4. updateavgvalue s:${s} for All holder LastPrice Success - ${lastprice*1}`);
+						}
+					}); // end updateMany 
 					for(var key in holding){
 						if(typeof avgdata[key] != "undefined"){
 							//existing address , update 
@@ -144,18 +154,18 @@ exports.updateavgvalue = function(req,res){
 								let f=(deltaqty*lastprice);
 								logger.debug(`-- 4a. updateavgvalue s: ${s} a: ${key} g=${g} f=${f}`);
 								updateavgvalue=(g+f)/holding[key]*1;
+								await avgvaluedata.update({"HOLDERADDRESS":key,"SYMBOL":s},{"CURRENTAVGVALUE":updateavgvalue*1,"PRICE":lastprice*1,"QTY":holding[key]*1},{runValidator:true},function(err,docs){
+								if(err){
+									logger.error(`-- 4a. updateavgvalue s:${s} -a:${key} - Update AvgValue Error - ${error}`);
+									updateerrorcount++;
+									errorlist.push(key);
+								}else{
+									logger.info(`-- 4a. updateavgvalue s:${s} -a:${key} - Update AvgValue Success - ${updateavgvalue}`);
+									updatecount++;
+									updatelist.push(key);
+								}
+								});//update statement end
 							}
-							await avgvaluedata.update({"HOLDERADDRESS":key,"SYMBOL":s},{"CURRENTAVGVALUE":updateavgvalue*1,"PRICE":lastprice*1,"QTY":holding[key]*1},{runValidator:true},function(err,docs){
-					if(err){
-						logger.error(`-- 4a. updateavgvalue s:${s} -a:${key} - Update AvgValue Error - ${error}`);
-						updateerrorcount++;
-						errorlist.push(key);
-					}else{
-						logger.info(`-- 4a. updateavgvalue s:${s} -a:${key} - Update AvgValue Success - ${updateavgvalue}`);
-						updatecount++;
-						updatelist.push(key);
-					}
-				});//update statement end
 							delete avgdata[key];
 						}else{
 							//new holder , prepare new record
