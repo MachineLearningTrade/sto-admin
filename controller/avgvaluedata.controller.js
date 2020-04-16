@@ -140,7 +140,7 @@ exports.updateavgvalue = function(req,res){
 							let updateavgvalue=avgdata[key]["CURRENTAVGVALUE"]["$numberDecimal"]
 							logger.debug(`-- 4a. updateavgvalue s: ${s} a: ${key} deltaqty=${deltaqty}`);
 							if(deltaqty>0){
-								let g=(avgdata[key]["CURRENTAVGVALUE"]["$numberDecimal"]*1*avgdata[key]["QTY"]*1);
+								let g=(avgdata[key]["CURRENTAVGVALUE"]["$numberDecimal"]*1*avgdata[key]["QTY"]["$numberDecimal"]*1);
 								let f=(deltaqty*lastprice);
 								logger.debug(`-- 4a. updateavgvalue s: ${s} a: ${key} g=${g} f=${f}`);
 								updateavgvalue=(g+f)/holding[key]*1;
